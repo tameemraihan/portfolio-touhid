@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import TopButton from "../../components/topButton/TopButton";
@@ -69,6 +69,80 @@ const languages = [
   { name: "German", level: "Intermediate", flag: "🇩🇪" },
 ];
 
+function FlipCard({ h, theme }) {
+  const [flipped, setFlipped] = useState(false);
+  return (
+    <div
+      className={`flip-card${flipped ? " flipped" : ""}`}
+      onClick={() => setFlipped((f) => !f)}
+    >
+      <div className="flip-card-inner">
+        {/* Front */}
+        <div
+          className="flip-card-front showcase-card"
+          style={{ backgroundColor: theme.highlight }}
+        >
+          <svg
+            className="flip-hint-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17 2L21 6L17 10"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M21 6H8C5.79 6 4 7.79 4 10V11"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M7 22L3 18L7 14"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M3 18H16C18.21 18 20 16.21 20 14V13"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          {h.img ? (
+            <img src={h.img} alt={h.title} className="showcase-card-img" />
+          ) : (
+            <span className="showcase-emoji">{h.emoji}</span>
+          )}
+          <h3 style={{ color: theme.text }}>{h.title}</h3>
+          <p style={{ color: theme.secondaryText }}>{h.desc}</p>
+        </div>
+        {/* Back */}
+        <div
+          className="flip-card-back"
+          style={{ backgroundColor: theme.highlight }}
+        >
+          {h.img ? (
+            <img src={h.img} alt={h.title} className="flip-card-back-img" />
+          ) : (
+            <span className="showcase-emoji" style={{ fontSize: 80 }}>
+              {h.emoji}
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 class Showcase extends Component {
   render() {
     const theme = this.props.theme;
@@ -94,23 +168,7 @@ class Showcase extends Component {
             <h2 style={{ color: theme.text }}>Hobbies & Interests</h2>
             <div className="showcase-cards">
               {hobbies.map((h, i) => (
-                <div
-                  key={i}
-                  className="showcase-card"
-                  style={{ backgroundColor: theme.highlight }}
-                >
-                  {h.img ? (
-                    <img
-                      src={h.img}
-                      alt={h.title}
-                      className="showcase-card-img"
-                    />
-                  ) : (
-                    <span className="showcase-emoji">{h.emoji}</span>
-                  )}
-                  <h3 style={{ color: theme.text }}>{h.title}</h3>
-                  <p style={{ color: theme.secondaryText }}>{h.desc}</p>
-                </div>
+                <FlipCard key={i} h={h} theme={theme} />
               ))}
             </div>
           </div>
@@ -122,23 +180,7 @@ class Showcase extends Component {
             <h2 style={{ color: theme.text }}>Dreams & Goals</h2>
             <div className="showcase-cards">
               {goals.map((g, i) => (
-                <div
-                  key={i}
-                  className="showcase-card"
-                  style={{ backgroundColor: theme.highlight }}
-                >
-                  {g.img ? (
-                    <img
-                      src={g.img}
-                      alt={g.title}
-                      className="showcase-card-img"
-                    />
-                  ) : (
-                    <span className="showcase-emoji">{g.emoji}</span>
-                  )}
-                  <h3 style={{ color: theme.text }}>{g.title}</h3>
-                  <p style={{ color: theme.secondaryText }}>{g.desc}</p>
-                </div>
+                <FlipCard key={i} h={g} theme={theme} />
               ))}
             </div>
           </div>
